@@ -66,5 +66,12 @@ logoutButton.addEventListener("click", async (event) => {
 });
 
 auth.onAuthStateChanged(async (user) => {
-  setupUI(user);
+  if (user) {
+    db.collection("quotes").onSnapshot((snapshot) => {
+      setupQuotes(snapshot.docs);
+      setupUI(user);
+    });
+  } else {
+    setupUI();
+  }
 });
